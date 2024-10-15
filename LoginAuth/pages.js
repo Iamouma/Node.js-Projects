@@ -1,24 +1,26 @@
 const express = require("express");
 const router = express.Router();
 
+// Home page route
 router.get("/", (req, res) => {
-    if (req.session.name) {
-        var name = req.session.name;
-        res.render("home", { name: name });
-    }
-    return res.render("home", { name: null });
+    const name = req.session.name || null; // Use null if session name is not defined
+    res.render("home", { name }); // Render home with the user's name
 });
+
+// Login page route
 router.get("/login", (req, res) => {
-    if (re.session.name) {
-        res.redirect("/");
+    if (req.session.name) {
+        return res.redirect("/"); // Use return to prevent further execution
     }
-    return res.render("login", { error: null });
+    res.render("login", { error: null }); // Render login page
 });
+
+// Registration page route
 router.get("/register", (req, res) => {
     if (req.session.name) {
-        res.redirect("/");
+        return res.redirect("/"); // Use return to prevent further execution
     }
-    return res.render("register", { error: null });
+    res.render("register", { error: null }); // Render registration page
 });
 
 module.exports = router;
