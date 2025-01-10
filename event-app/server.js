@@ -1,7 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const ejs = require('ejs');
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const Event = require('../models/Events');
 
 // Initialize the application
 const app = express();
@@ -18,9 +19,16 @@ mongoose
     console.error('Could not connect to MongoDB:', err);
   });
 
-// Routing path
-app.get('/', (req, res) => {
-    res.send('Hello World!');
+// posting a data
+app.post('/submit-event', (req, res) => {
+  const event = new Event(req.body);
+  event.save()
+  .then((result) => {
+    res.redirect('/');
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 });
 
 // Start the server
